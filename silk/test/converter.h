@@ -33,9 +33,24 @@ void wap_endian(
 );
 #endif
 
+typedef struct {
+    char    mRiffName[4];
+    int     nRiffLength;
+    char    mPW[8];
+    int     nFMTLength;
+    short   nPCM;
+    short   nChannel;
+    int     nSampleRate;
+    int     nBytesPerSecond;
+    short   nBytesPerSample;
+    short   nBitsPerSample;
+    char    mPData[4];
+    int     nDataLength;
+} WAVEHEAD;
+
 unsigned long GetHighResolutionTime();
 
-int convertSilk2Pcm(
+int convertSilk2Pcm (
     char*     fileContent,
     int       fileLen,
     string    &outputStr,
@@ -43,6 +58,13 @@ int convertSilk2Pcm(
     SKP_float loss_prob = 0.0f,
     SKP_int32 API_Fs_Hz = 0,
     SKP_int32 quiet = 0 
+);
+
+int makeWavHeader ( 
+    WAVEHEAD &wav_head, 
+    SKP_int64 memAllocSize, 
+    int nSampleRate, 
+    int nBitsPerSample 
 );
 
 #endif

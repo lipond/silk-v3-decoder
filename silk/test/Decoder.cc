@@ -112,21 +112,31 @@ int main( int argc, char* argv[] )
     fread(fileContent, sizeof(char), fileLen, bitInFile);
     fseek(bitInFile, 0, SEEK_SET);
 
+    /* convert silk stream to pcm stream */
+    convertSilk2Pcm( fileContent, fileLen, outputStr, memAllocSize );
+
+    /* make wave file header */
+    WAVEHEAD wav_head;
+    int nSampleRate = 24000;
+    int nBitsPerSample = 16;
+    makeWavHeader( wav_head, memAllocSize, nSampleRate, nBitsPerSample );
+
+    /* open output file */
     speechOutFile = fopen( speechOutFileName, "wb" );
     if( speechOutFile == NULL ) {
         printf( "Error: could not open output file %s\n", speechOutFileName );
         exit( 0 );
     }
+ 
+    /* writing wave header to output file */
+    fwrite( &wav_head, 1, sizeof(WAVEHEAD), speechOutFile );
 
-    /* convert silk stream to pcm stream */
-    convertSilk2Pcm( fileContent, fileLen, outputStr, memAllocSize );
-
-    /* dump pcm stream to file */
+    /* dump pcm stream to output file */
     fwrite( &outputStr[0], 1, memAllocSize, speechOutFile );
 
     /* Close files */
     fclose( speechOutFile );
     fclose( bitInFile );
-    
+
     return 0;
 }

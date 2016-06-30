@@ -99,7 +99,7 @@ endif
 ENCODER_SRCS_C = test/Encoder.c
 ENCODER_OBJS := $(patsubst %.c,%$(OBJSUFFIX),$(ENCODER_SRCS_C))
 
-DECODER_SRCS_C = test/Decoder.cc
+DECODER_SRCS_C = test/Decoder.cc test/converter.cc
 DECODER_OBJS := $(patsubst %.cc,%$(OBJSUFFIX),$(DECODER_SRCS_C))
 
 SIGNALCMP_SRCS_C = test/signalCompare.c

@@ -420,3 +420,38 @@ int convertSilk2Pcm(
 
     return 0;
 }
+
+int makeWavHeader ( 
+    WAVEHEAD &wav_head, 
+    SKP_int64 memAllocSize, 
+    int nSampleRate, 
+    int nBitsPerSample )
+{
+    wav_head.mRiffName[0] = 'R';
+    wav_head.mRiffName[1] = 'I';
+    wav_head.mRiffName[2] = 'F';
+    wav_head.mRiffName[3] = 'F';
+    wav_head.nRiffLength = memAllocSize + 36;
+    wav_head.mPW[0] = 'W';
+    wav_head.mPW[1] = 'A';
+    wav_head.mPW[2] = 'V';
+    wav_head.mPW[3] = 'E';
+    wav_head.mPW[4] = 'f';
+    wav_head.mPW[5] = 'm';
+    wav_head.mPW[6] = 't';
+    wav_head.mPW[7] = ' ';
+    wav_head.nFMTLength = 16;
+    wav_head.nPCM = 1;
+    wav_head.nChannel = 1;
+    wav_head.nSampleRate = nSampleRate;
+    wav_head.nBytesPerSecond = nSampleRate * nBitsPerSample / 8;
+    wav_head.nBytesPerSample = nBitsPerSample / 8;
+    wav_head.nBitsPerSample = nBitsPerSample;
+    wav_head.mPData[0] = 'd';
+    wav_head.mPData[1] = 'a';
+    wav_head.mPData[2] = 't';
+    wav_head.mPData[3] = 'a';
+    wav_head.nDataLength = memAllocSize;
+
+    return 0;
+}
