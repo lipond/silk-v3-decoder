@@ -63,7 +63,8 @@ if [ ! -f "$1.pcm" ]; then
 	[ -f "${1%.*}.$2" ]&&echo -e "${GREEN}[OK]${RESET} Convert $1 to ${1%.*}.$2 success, ${YELLOW}but not a silk v3 encoded file.${RESET}"&&exit
 	echo -e "${YELLOW}[Warning]${RESET} Convert $1 false, maybe not a silk v3 encoded file."&&exit
 fi
-ffmpeg -y -f s16le -ar 24000 -ac 1 -i "$1.pcm" "${1%.*}.$2" > /dev/null 2>&1
+ffmpeg -y -f s16le -ar 24000 -ac 1 -i "$1.pcm" -o "${1%.*}.$2" > /dev/null 2>&1
+ffmpeg -i "${1%.*}.$2" -ar 16000 -ac 1 -acodec pcm_s16le -o "${1%.*}_16k.$2" > /dev/null 2>&1
 while pidof /usr/bin/ffmpeg; do sleep 1; done > /dev/null
 rm "$1.pcm"
 [ ! -f "${1%.*}.$2" ]&&echo -e "${YELLOW}[Warning]${RESET} Convert $1 false, maybe ffmpeg no format handler for $2."&&exit

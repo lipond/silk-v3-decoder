@@ -68,9 +68,6 @@ ARCHIVE.cmdline     = $(AR) $(ARFLAGS) $@ $^ && $(RANLIB) $@
 %$(OBJSUFFIX):%.cpp
 	$(COMPILE.cpp.cmdline)
 
-%$(OBJSUFFIX):%.cc
-	$(COMPILE.cpp.cmdline)
-
 %$(OBJSUFFIX):%.S
 	$(COMPILE.S.cmdline)
 
@@ -99,8 +96,8 @@ endif
 ENCODER_SRCS_C = test/Encoder.c
 ENCODER_OBJS := $(patsubst %.c,%$(OBJSUFFIX),$(ENCODER_SRCS_C))
 
-DECODER_SRCS_C = test/Decoder.cc test/converter.cc
-DECODER_OBJS := $(patsubst %.cc,%$(OBJSUFFIX),$(DECODER_SRCS_C))
+DECODER_SRCS_C = test/Decoder.c
+DECODER_OBJS := $(patsubst %.c,%$(OBJSUFFIX),$(DECODER_SRCS_C))
 
 SIGNALCMP_SRCS_C = test/signalCompare.c
 SIGNALCMP_OBJS := $(patsubst %.c,%$(OBJSUFFIX),$(SIGNALCMP_SRCS_C))
@@ -133,3 +130,4 @@ clean:
 	$(RM) $(TARGET)* $(OBJS) $(ENCODER_OBJS) $(DECODER_OBJS) \
 		  $(SIGNALCMP_OBJS) $(TEST_OBJS) \
 		  encoder$(EXESUFFIX) decoder$(EXESUFFIX) signalcompare$(EXESUFFIX)
+
